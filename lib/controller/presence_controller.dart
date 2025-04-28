@@ -10,11 +10,11 @@ class PresenceController extends GetxController {
     final user = _auth.currentUser;
     if (user == null) return;
 
-    final DatabaseReference statusRef = _db.ref("status/${user.uid}");
+    final DatabaseReference statusRef = _db.ref('status/${user.uid}');
 
-    final isOnline = {"isOnline": true, "lastSeen": ServerValue.timestamp};
+    final isOnline = {'isOnline': true, 'lastSeen': ServerValue.timestamp};
 
-    final isOffline = {"isOnline": false, "lastSeen": ServerValue.timestamp};
+    final isOffline = {'isOnline': false, 'lastSeen': ServerValue.timestamp};
 
     // Set online now
     await statusRef.set(isOnline);
@@ -27,8 +27,8 @@ class PresenceController extends GetxController {
     final user = _auth.currentUser;
     if (user == null) return;
 
-    final DatabaseReference statusRef = _db.ref("status/${user.uid}");
-    final isOffline = {"isOnline": false, "lastSeen": ServerValue.timestamp};
+    final DatabaseReference statusRef = _db.ref('status/${user.uid}');
+    final isOffline = {'isOnline': false, 'lastSeen': ServerValue.timestamp};
 
     await statusRef.set(isOffline);
   }

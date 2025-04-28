@@ -3,9 +3,9 @@ import 'package:talky/screens/login/login_screen.dart';
 import 'package:talky/screens/otp/otp_screen.dart';
 import 'package:talky/screens/profile_settings/profile_settings_screen.dart';
 
-import '../screens/chat/chat_screen.dart';
-import '../screens/chat/new_message_screen.dart';
-import '../screens/home/home_screen.dart';
+import 'package:talky/screens/chat/chat_screen.dart';
+import 'package:talky/screens/chat/new_message_screen.dart';
+import 'package:talky/screens/home/home_screen.dart';
 
 final Map<String, WidgetBuilder> routes = {
   HomeScreen.routeName: (context) => const HomeScreen(),
@@ -25,8 +25,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         return MaterialPageRoute(
           builder:
               (context) => ChatScreen(
-                chatId: args["chatId"] ?? "",
-                otherUserName: args["otherUserName"] ?? "Unknown",
+                chatId: args['chatId'] ?? '',
+                otherUserName: args['otherUserName'] ?? 'Unknown',
               ),
         );
       }

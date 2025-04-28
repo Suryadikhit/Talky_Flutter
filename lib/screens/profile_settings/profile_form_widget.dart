@@ -3,8 +3,8 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../controller/profile_controller.dart';
-import '../../utils/app_colors.dart';
+import 'package:talky/controller/profile_controller.dart';
+import 'package:talky/utils/app_colors.dart';
 
 class ProfileFormWidget extends StatelessWidget {
   final ProfileController controller;
@@ -16,12 +16,12 @@ class ProfileFormWidget extends StatelessWidget {
       children: [
         TextFormField(
           controller: controller.nameController,
-          decoration: const InputDecoration(labelText: "First Name"),
+          decoration: const InputDecoration(labelText: 'First Name'),
         ),
         const SizedBox(height: 10),
         TextFormField(
           controller: controller.lastNameController,
-          decoration: const InputDecoration(labelText: "Last Name"),
+          decoration: const InputDecoration(labelText: 'Last Name'),
         ),
       ],
     );
@@ -35,7 +35,7 @@ class ProfileButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      bool isLoading = controller.isUploading.value;
+      final bool isLoading = controller.isUploading.value;
       return greenButton(
         isLoading ? null : controller.saveProfileData,
         isLoading,
@@ -63,7 +63,7 @@ Widget greenButton(VoidCallback? onPressed, bool isLoading) {
               ),
             )
             : Text(
-              "Submit",
+              'Submit',
               style: GoogleFonts.poppins(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,

@@ -1,5 +1,5 @@
 class AppConstants{
-  static const googleApiKey = "Your-Key";
+  static const googleApiKey = 'Your-Key';
 
   static const String enterMobileNumber = 'Enter your mobile number';
   static const String byCreating = 'By creating an account, you agree to our';

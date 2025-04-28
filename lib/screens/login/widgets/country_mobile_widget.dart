@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../../../common_widgets/text_widget.dart';
-import '../../../../../utils/app_constants.dart';
-import '../../../../../utils/show_snack_bar.dart';
+import 'package:talky/common_widgets/text_widget.dart';
+import 'package:talky/utils/app_constants.dart';
+import 'package:talky/utils/show_snack_bar.dart';
 
 class CountryMobileWidget extends StatelessWidget {
   final CountryCode countryCode;
@@ -30,7 +30,6 @@ class CountryMobileWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 20),
           Container(
@@ -50,7 +49,6 @@ class CountryMobileWidget extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  flex: 1,
                   child: InkWell(
                     onTap: () => onCountryChange(),
                     child: Row(
@@ -106,7 +104,7 @@ class CountryMobileWidget extends StatelessWidget {
                 // You can add setState or parent state update logic here if needed
                 if (txtController.text.isEmpty) {
                   ShowSnackBar.showSnackBar(
-                    text: "Please enter your mobile number",
+                    text: 'Please enter your mobile number',
                   );
                 } else {
                   // Perform the onSubmit action
@@ -125,7 +123,7 @@ class CountryMobileWidget extends StatelessWidget {
                                   .contain, // Use BoxFit.contain for better animation scaling
                         ),
                       )
-                      : const Text("Continue"),
+                      : const Text('Continue'),
             ),
           ),
           const SizedBox(height: 30),
@@ -136,14 +134,14 @@ class CountryMobileWidget extends StatelessWidget {
               text: TextSpan(
                 style: GoogleFonts.poppins(color: Colors.black, fontSize: 12),
                 children: [
-                  const TextSpan(text: "${AppConstants.byCreating} "),
+                  const TextSpan(text: '${AppConstants.byCreating} '),
                   TextSpan(
-                    text: "${AppConstants.termsOfService} ",
+                    text: '${AppConstants.termsOfService} ',
                     style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
                   ),
-                  const TextSpan(text: "and "),
+                  const TextSpan(text: 'and '),
                   TextSpan(
-                    text: "${AppConstants.privacyPolicy} ",
+                    text: '${AppConstants.privacyPolicy} ',
                     style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
                   ),
                 ],

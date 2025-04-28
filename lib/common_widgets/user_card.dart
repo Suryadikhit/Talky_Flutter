@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/app_colors.dart';
+import 'package:talky/utils/app_colors.dart';
 
 class UserCard extends StatelessWidget {
   final int index;
@@ -23,7 +23,7 @@ class UserCard extends StatelessWidget {
               CircleAvatar(
                 radius: 28, // Profile picture size
                 backgroundImage: NetworkImage(
-                  "https://randomuser.me/api/portraits/men/$index.jpg",
+                  'https://randomuser.me/api/portraits/men/$index.jpg',
                 ),
               ),
               const SizedBox(width: 12), // Space between avatar and text
@@ -36,8 +36,8 @@ class UserCard extends StatelessWidget {
                       CrossAxisAlignment.start, // Align text to the left
                   children: [
                     Text(
-                      "User $index",
-                      style: TextStyle(
+                      'User $index',
+                      style: const TextStyle(
                         color: AppColors.blackColor,
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
@@ -45,8 +45,8 @@ class UserCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 2), // Small spacing
                     Text(
-                      "Last message from User $index",
-                      style: TextStyle(
+                      'Last message from User $index',
+                      style: const TextStyle(
                         color: AppColors.blackColor,
                         fontSize: 13,
                       ),
@@ -57,7 +57,7 @@ class UserCard extends StatelessWidget {
             ],
           ),
         ),
-        Divider(
+        const Divider(
           color: AppColors.background,
           thickness: 0.5,
           indent: 70, // Aligns exactly with text start

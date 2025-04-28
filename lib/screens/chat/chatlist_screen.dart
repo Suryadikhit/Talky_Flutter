@@ -4,12 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:talky/controller/new_message_controller.dart';
+import 'package:talky/screens/chat/components/chat_list_tile.dart';
+import 'package:talky/screens/chat/components/chat_top_section.dart';
+import 'package:talky/utils/app_colors.dart';
 
-import '../../controller/chat_controller.dart';
-import '../../controller/new_message_controller.dart';
-import '../../utils/app_colors.dart';
-import 'components/chat_list_tile.dart';
-import 'components/chat_top_section.dart';
+import '../../controller/chat/chat_controller.dart';
 
 class ChatsScreen extends StatefulWidget {
   const ChatsScreen({super.key});
@@ -35,15 +35,15 @@ class ChatsScreenState extends State<ChatsScreen> {
   }
 
   Future<void> fetchUserData() async {
-    String userId = FirebaseAuth.instance.currentUser?.uid ?? "";
+    final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
     if (userId.isEmpty) return;
 
-    DocumentSnapshot userDoc =
-        await FirebaseFirestore.instance.collection("users").doc(userId).get();
+    final DocumentSnapshot userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
     if (userDoc.exists) {
       setState(() {
-        initials = userDoc["initials"] ?? "?";
-        profileImageUrl = userDoc["profileImageUrl"];
+        initials = userDoc['initials'] ?? '?';
+        profileImageUrl = userDoc['profileImageUrl'];
       });
     }
   }
@@ -52,7 +52,7 @@ class ChatsScreenState extends State<ChatsScreen> {
     await newMessageController.fetchContacts();
     for (var contact in newMessageController.contacts) {
       if (contact.phones.isNotEmpty) {
-        String phoneNumber = newMessageController.normalizeNumber(
+        final String phoneNumber = NewMessageController.normalizeNumber(
           contact.phones.first.number,
         );
         phoneToNameMap[phoneNumber] = contact.displayName;
@@ -98,10 +98,10 @@ class ChatsScreenState extends State<ChatsScreen> {
                   }
 
                   if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return const Center(child: Text("No chats yet."));
+                    return const Center(child: Text('No chats yet.'));
                   }
 
-                  var chats = snapshot.data!.docs;
+                  final chats = snapshot.data!.docs;
 
                   return ListView.builder(
                     padding: const EdgeInsets.symmetric(
@@ -110,9 +110,9 @@ class ChatsScreenState extends State<ChatsScreen> {
                     ),
                     itemCount: chats.length,
                     itemBuilder: (context, index) {
-                      var chat = chats[index];
+                      final chat = chats[index];
                       return ChatListTile(
-                        chatId: chat["chatId"],
+                        chatId: chat['chatId'],
                         phoneToNameMap: phoneToNameMap,
                       );
                     },

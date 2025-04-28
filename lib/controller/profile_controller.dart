@@ -8,8 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../screens/home/home_screen.dart';
+import 'package:talky/screens/home/home_screen.dart';
 
 class ProfileController extends GetxController {
   TextEditingController nameController = TextEditingController();
@@ -19,8 +18,8 @@ class ProfileController extends GetxController {
   final ImagePicker _picker = ImagePicker();
   Rx<File?> selectedImage = Rx<File?>(null);
   RxBool isUploading = false.obs;
-  RxString selectedGender = "Male".obs;
-  RxString initials = "".obs; // Reactive initials
+  RxString selectedGender = 'Male'.obs;
+  RxString initials = ''.obs; // Reactive initials
 
   @override
   void onInit() {
@@ -30,15 +29,15 @@ class ProfileController extends GetxController {
   }
 
   void updateInitials() {
-    String firstName = nameController.text.trim();
-    String lastName = lastNameController.text.trim();
+    final String firstName = nameController.text.trim();
+    final String lastName = lastNameController.text.trim();
 
     if (firstName.isNotEmpty && lastName.isNotEmpty) {
       initials.value = firstName[0].toUpperCase() + lastName[0].toUpperCase();
     } else if (firstName.isNotEmpty) {
       initials.value = firstName[0].toUpperCase();
     } else {
-      initials.value = ""; // Reset initials if no name is entered
+      initials.value = ''; // Reset initials if no name is entered
     }
   }
 
@@ -53,70 +52,71 @@ class ProfileController extends GetxController {
     if (!formKey.currentState!.validate()) return;
 
     isUploading.value = true;
-    String userId = FirebaseAuth.instance.currentUser!.uid;
-    String firstName = nameController.text.trim();
-    String lastName = lastNameController.text.trim();
-    String phoneNumber = FirebaseAuth.instance.currentUser!.phoneNumber ?? "";
+    final String userId = FirebaseAuth.instance.currentUser!.uid;
+    final String firstName = nameController.text.trim();
+    final String lastName = lastNameController.text.trim();
+    final String phoneNumber =
+        FirebaseAuth.instance.currentUser!.phoneNumber ?? '';
     String? profileImageUrl;
 
     try {
       if (selectedImage.value != null) {
-        Reference storageRef = FirebaseStorage.instance
+        final Reference storageRef = FirebaseStorage.instance
             .ref()
-            .child("profile_images")
-            .child("$userId.jpg");
+            .child('profile_images')
+            .child('$userId.jpg');
 
-        UploadTask uploadTask = storageRef.putFile(selectedImage.value!);
-        TaskSnapshot snapshot = await uploadTask;
+        final UploadTask uploadTask = storageRef.putFile(selectedImage.value!);
+        final TaskSnapshot snapshot = await uploadTask;
         profileImageUrl = await snapshot.ref.getDownloadURL();
       } else {
-        profileImageUrl = "";
+        profileImageUrl = '';
       }
 
       // Fetch existing user data
-      DocumentSnapshot userDoc =
+      final DocumentSnapshot userDoc =
           await FirebaseFirestore.instance
-              .collection("users")
+              .collection('users')
               .doc(userId)
               .get();
 
-      String previousName = userDoc.exists ? (userDoc["username"] ?? "") : "";
+      final String previousName =
+          userDoc.exists ? (userDoc['username'] ?? '') : '';
 
       // Generate initials only if name has changed
-      String userInitials =
-          previousName != "$firstName $lastName"
+      final String userInitials =
+          previousName != '$firstName $lastName'
               ? (firstName.isNotEmpty
                   ? (lastName.isNotEmpty
                       ? firstName[0].toUpperCase() + lastName[0].toUpperCase()
                       : firstName[0].toUpperCase())
-                  : "?")
-              : userDoc["initials"] ?? "?";
+                  : '?')
+              : userDoc['initials'] ?? '?';
 
-      String? fcmToken = await FirebaseMessaging.instance.getToken();
+      final String? fcmToken = await FirebaseMessaging.instance.getToken();
 
-      Map<String, dynamic> userData = {
-        "userId": userId,
-        "username": "$firstName $lastName",
-        "number": phoneNumber,
-        "gender": selectedGender.value,
-        "profileImageUrl": profileImageUrl,
-        "fcmToken": fcmToken ?? "",
-        "initials": userInitials, // Store initials in Firestore
-        "status": {
-          "isOnline": true,
-          "lastSeen": ServerValue.timestamp,
+      final Map<String, dynamic> userData = {
+        'userId': userId,
+        'username': '$firstName $lastName',
+        'number': phoneNumber,
+        'gender': selectedGender.value,
+        'profileImageUrl': profileImageUrl,
+        'fcmToken': fcmToken ?? '',
+        'initials': userInitials, // Store initials in Firestore
+        'status': {
+          'isOnline': true,
+          'lastSeen': ServerValue.timestamp,
         }, // Store user status
       };
 
       await FirebaseFirestore.instance
-          .collection("users")
+          .collection('users')
           .doc(userId)
           .set(userData);
-      Get.snackbar("Success", "Profile Updated!");
-
+      Get.snackbar('Success', 'Profile Updated!');
       Get.offAll(() => const HomeScreen());
     } catch (e) {
-      Get.snackbar("Error", "Failed to update profile: $e");
+      Get.snackbar('Error', 'Failed to update profile: $e');
     } finally {
       isUploading.value = false;
     }

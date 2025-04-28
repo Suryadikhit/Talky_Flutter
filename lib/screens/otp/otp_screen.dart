@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:talky/screens/otp/widgets/otp_widget.dart';
 
-import '../../controller/auth_controller.dart';
-import '../../utils/app_colors.dart';
+import 'package:talky/controller/auth_controller.dart';
+import 'package:talky/utils/app_colors.dart';
 
 class OTPScreen extends StatelessWidget {
-  static String routeName = "/OTPScreen";
+  static String routeName = '/OTPScreen';
 
   const OTPScreen({super.key});
 
@@ -71,8 +71,6 @@ class OTPScreen extends StatelessWidget {
         ),
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               OTPWidgets(
                 controller: authController.otpController,
@@ -85,12 +83,12 @@ class OTPScreen extends StatelessWidget {
                         ? TextButton(
                           onPressed: authController.resendOTP,
                           child: const Text(
-                            "Resend OTP",
+                            'Resend OTP',
                             style: TextStyle(color: Colors.blue, fontSize: 16),
                           ),
                         )
                         : Text(
-                          "Resend OTP in ${authController.secondsRemaining.value} sec",
+                          'Resend OTP in ${authController.secondsRemaining.value} sec',
                           style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
@@ -114,7 +112,7 @@ class OTPScreen extends StatelessWidget {
                               fit: BoxFit.contain,
                             ),
                           )
-                          : const Text("Verify OTP"),
+                          : const Text('Verify OTP'),
                 ),
               ),
             ],

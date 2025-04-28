@@ -20,7 +20,7 @@ class IntroWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Hey! 😊",
+              'Hey! 😊',
               style: GoogleFonts.poppins(
                 fontSize: 28, // Bigger size for "Hey!"
                 fontWeight: FontWeight.bold,
@@ -29,7 +29,7 @@ class IntroWidget extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text(
-              "Ready to chat seamlessly?",
+              'Ready to chat seamlessly?',
               style: GoogleFonts.poppins(
                 fontSize: 18, // Smaller than "Hey!"
                 fontWeight: FontWeight.w500,

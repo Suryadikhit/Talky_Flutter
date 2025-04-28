@@ -6,11 +6,11 @@ import 'package:get/get.dart';
 import 'package:talky/screens/login/widgets/country_mobile_widget.dart';
 import 'package:talky/screens/login/widgets/intro_widget.dart';
 
-import '../../controller/auth_controller.dart';
-import '../../utils/app_colors.dart';
+import 'package:talky/controller/auth_controller.dart';
+import 'package:talky/utils/app_colors.dart';
 
 class LoginScreen extends StatefulWidget {
-  static String routeName = "/LoginScreen";
+  static String routeName = '/LoginScreen';
   const LoginScreen({super.key});
 
   @override
@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     const SizedBox(height: 15),
-                    const Text("Sign in now"),
+                    const Text('Sign in now'),
                     Obx(
                       () => CountryMobileWidget(
                         countryCode: authController.countryCode.value,

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../utils/app_colors.dart';
+import 'package:talky/utils/app_colors.dart';
 
 class MyProfile extends StatefulWidget {
-  static String routeName = "/MyProfile";
+  static String routeName = '/MyProfile';
   const MyProfile({super.key});
 
   @override
@@ -37,10 +37,10 @@ class _MyProfileState extends State<MyProfile> {
   void initState() {
     super.initState();
     // Dummy data for preview
-    nameController.text = "John Doe";
-    homeController.text = "123 Street, New York, USA";
-    shopController.text = "Mall Center, NY";
-    businessController.text = "Downtown Business Park, NY";
+    nameController.text = 'John Doe';
+    homeController.text = '123 Street, New York, USA';
+    shopController.text = 'Mall Center, NY';
+    businessController.text = 'Downtown Business Park, NY';
   }
 
   @override
@@ -88,7 +88,7 @@ class _MyProfileState extends State<MyProfile> {
       ),
       child: Center(
         child: Text(
-          "My Profile",
+          'My Profile',
           style: GoogleFonts.poppins(
             fontSize: 22,
             fontWeight: FontWeight.bold,
@@ -141,13 +141,13 @@ class _MyProfileState extends State<MyProfile> {
         key: formKey,
         child: Column(
           children: [
-            _buildTextField("Name", Icons.person_outlined, nameController),
+            _buildTextField('Name', Icons.person_outlined, nameController),
             const SizedBox(height: 10),
-            _buildTextField("Home Address", Icons.home_outlined, homeController),
+            _buildTextField('Home Address', Icons.home_outlined, homeController),
             const SizedBox(height: 10),
-            _buildTextField("Business Address", Icons.card_travel, businessController),
+            _buildTextField('Business Address', Icons.card_travel, businessController),
             const SizedBox(height: 10),
-            _buildTextField("Shopping Center", Icons.shopping_cart_outlined, shopController),
+            _buildTextField('Shopping Center', Icons.shopping_cart_outlined, shopController),
             const SizedBox(height: 30),
             _buildUpdateButton(),
           ],
@@ -210,12 +210,12 @@ class _MyProfileState extends State<MyProfile> {
       color: AppColors.greenColor,
       onPressed: () {
         if (formKey.currentState!.validate()) {
-          Get.snackbar("Profile Updated", "Your profile has been updated successfully!",
+          Get.snackbar('Profile Updated', 'Your profile has been updated successfully!',
               snackPosition: SnackPosition.BOTTOM);
         }
       },
       child: Text(
-        "Update",
+        'Update',
         style: GoogleFonts.poppins(
           fontSize: 16,
           fontWeight: FontWeight.bold,

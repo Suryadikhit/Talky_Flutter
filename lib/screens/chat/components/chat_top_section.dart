@@ -1,10 +1,9 @@
 // lib/screens/chats/chat_top_section.dart
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
-import '../../../utils/app_colors.dart';
-import '../new_message_screen.dart';
-import 'search_bar.dart';
+import 'package:talky/screens/chat/components/search_bar.dart';
+import 'package:talky/screens/chat/new_message_screen.dart';
+import 'package:talky/utils/app_colors.dart';
 
 class ChatTopSection extends StatelessWidget {
   final String? initials;
@@ -57,7 +56,7 @@ class ChatTopSection extends StatelessWidget {
                               radius: 20,
                               backgroundColor: Colors.grey.shade400,
                               child: Text(
-                                initials ?? "",
+                                initials ?? '',
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -70,7 +69,7 @@ class ChatTopSection extends StatelessWidget {
                         radius: 20,
                         backgroundColor: Colors.grey.shade400,
                         child: Text(
-                          initials ?? "",
+                          initials ?? '',
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -81,7 +80,7 @@ class ChatTopSection extends StatelessWidget {
 
                   const SizedBox(width: 12),
                   const Text(
-                    "Chats",
+                    'Chats',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -100,7 +99,7 @@ class ChatTopSection extends StatelessWidget {
                   );
                 },
                 child: Image.asset(
-                  "assets/icons/add.png",
+                  'assets/icons/add.png',
                   width: 28,
                   height: 28,
                   color: AppColors.buttonColor,

@@ -5,10 +5,10 @@ class CallsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: Text(
-          "Calls",
+          'Calls',
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
       ),

@@ -2,11 +2,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:talky/common_widgets/timestamp_formatter.dart';
+import 'package:talky/controller/chat/message_controller.dart';
+import 'package:talky/message/message_status_icon.dart';
+import 'package:talky/screens/chat/chat_screen.dart';
 
-import '../../../common_widgets/timestamp_formatter.dart';
-import '../../../controller/chat_controller.dart';
-import '../../../message/message_status_icon.dart';
-import '../chat_screen.dart';
+import '../../../controller/chat/chat_controller.dart';
 
 class ChatListTile extends StatelessWidget {
   final String chatId;
@@ -20,12 +21,12 @@ class ChatListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String currentUserId = Get.find<ChatController>().currentUserId;
+    final String currentUserId = Get.find<ChatController>().currentUserId;
 
     return StreamBuilder<DocumentSnapshot>(
       stream:
           FirebaseFirestore.instance
-              .collection("chats")
+              .collection('chats')
               .doc(chatId)
               .snapshots(),
       builder: (context, chatSnapshot) {
@@ -33,10 +34,10 @@ class ChatListTile extends StatelessWidget {
           return const SizedBox();
         }
 
-        var chat = chatSnapshot.data!;
-        List<dynamic> participants = chat["participants"];
+        final chat = chatSnapshot.data!;
+        final List<dynamic> participants = chat['participants'];
 
-        String otherUserId =
+        final String otherUserId =
             participants.length == 1
                 ? currentUserId
                 : participants.firstWhere(
@@ -47,34 +48,34 @@ class ChatListTile extends StatelessWidget {
         return StreamBuilder<QuerySnapshot>(
           stream:
               FirebaseFirestore.instance
-                  .collection("chats")
+                  .collection('chats')
                   .doc(chatId)
-                  .collection("messages")
-                  .where("receiverId", isEqualTo: currentUserId)
-                  .where("status", whereIn: ["sent", "delivered"])
+                  .collection('messages')
+                  .where('receiverId', isEqualTo: currentUserId)
+                  .where('status', whereIn: ['sent', 'delivered'])
                   .snapshots(),
           builder: (context, unreadSnapshot) {
-            int unreadCount = unreadSnapshot.data?.docs.length ?? 0;
+            final int unreadCount = unreadSnapshot.data?.docs.length ?? 0;
 
             return FutureBuilder<DocumentSnapshot>(
               future:
                   FirebaseFirestore.instance
-                      .collection("users")
+                      .collection('users')
                       .doc(otherUserId)
                       .get(),
               builder: (context, userSnapshot) {
                 if (!userSnapshot.hasData) return const SizedBox();
 
-                var userData = userSnapshot.data!;
-                String phoneNumber = userData["number"] ?? "Unknown";
-                String otherUserName =
+                final userData = userSnapshot.data!;
+                final String phoneNumber = userData['number'] ?? 'Unknown';
+                final String otherUserName =
                     phoneToNameMap[phoneNumber] ?? phoneNumber;
 
-                Timestamp? lastMessageTime = chat["lastMessageTime"];
-                String formattedTime =
+                final Timestamp? lastMessageTime = chat['lastMessageTime'];
+                final String formattedTime =
                     lastMessageTime != null
                         ? formatTimestamp(lastMessageTime)
-                        : "";
+                        : '';
 
                 return ListTile(
                   contentPadding: EdgeInsets.zero,
@@ -84,17 +85,17 @@ class ChatListTile extends StatelessWidget {
                         radius: 25,
                         backgroundColor: Colors.grey.shade300,
                         backgroundImage:
-                            (userData["profileImageUrl"]
+                            (userData['profileImageUrl']
                                         ?.toString()
                                         .isNotEmpty ??
                                     false)
-                                ? NetworkImage(userData["profileImageUrl"])
+                                ? NetworkImage(userData['profileImageUrl'])
                                 : null,
                         child:
-                            (userData["profileImageUrl"]?.toString().isEmpty ??
+                            (userData['profileImageUrl']?.toString().isEmpty ??
                                     true)
                                 ? Text(
-                                  userData["initials"] ??
+                                  userData['initials'] ??
                                       otherUserName[0].toUpperCase(),
                                   style: const TextStyle(
                                     fontSize: 20,
@@ -148,13 +149,13 @@ class ChatListTile extends StatelessWidget {
                   subtitle: Row(
                     children: [
                       // ✅ Show tick only if the current user sent the last message
-                      if (chat["lastMessageSenderId"] == currentUserId)
+                      if (chat['lastMessageSenderId'] == currentUserId)
                         Row(
                           children: [
                             MessageStatusIcon(
-                              senderId: chat["lastMessageSenderId"],
+                              senderId: chat['lastMessageSenderId'],
                               currentUserId: currentUserId,
-                              status: chat["lastMessageStatus"] ?? "sent",
+                              status: chat['lastMessageStatus'] ?? 'sent',
                             ),
                             const SizedBox(width: 4),
                           ],
@@ -163,10 +164,10 @@ class ChatListTile extends StatelessWidget {
                       // ✅ Expanded last message text with styling
                       Expanded(
                         child: Text(
-                          chat["lastMessage"]?.toString().trim().isNotEmpty ==
+                          chat['lastMessage']?.toString().trim().isNotEmpty ==
                                   true
-                              ? chat["lastMessage"]
-                              : "Start a conversation...",
+                              ? chat['lastMessage']
+                              : 'Start a conversation...',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -185,11 +186,15 @@ class ChatListTile extends StatelessWidget {
                   ),
 
                   onTap: () {
+                    Get.find<MessageController>().startListeningForMessages(
+                      chatId,
+                    );
+
                     Get.toNamed(
                       ChatScreen.routeName,
                       arguments: {
-                        "chatId": chatId,
-                        "otherUserName": otherUserName,
+                        'chatId': chatId,
+                        'otherUserName': otherUserName,
                       },
                     );
                   },

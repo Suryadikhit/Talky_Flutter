@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
-import '../../../common_widgets/text_widget.dart';
-import '../../../utils/app_constants.dart';
+import 'package:talky/common_widgets/text_widget.dart';
+import 'package:talky/utils/app_constants.dart';
 
 /// Widget for OTP input section
 class OTPWidgets extends StatelessWidget {
@@ -115,7 +115,6 @@ class RoundedWithShadowState extends State<RoundedWithShadow> {
         ),
       ),
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      showCursor: true,
     );
   }
 }

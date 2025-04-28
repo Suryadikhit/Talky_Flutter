@@ -1,25 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:talky/controller/chat_controller.dart';
+import 'package:talky/controller/chat/typing_controller.dart';
 import 'package:talky/controller/firebase_options.dart';
+import 'package:talky/controller/new_message_controller.dart';
 import 'package:talky/controller/notification_controller.dart';
+import 'package:talky/controller/presence_controller.dart';
+import 'package:talky/controller/profile_controller.dart';
 import 'package:talky/routes.dart';
 import 'package:talky/screens/home/home_screen.dart';
 import 'package:talky/screens/login/login_screen.dart';
 import 'package:talky/utils/app_colors.dart';
 import 'package:talky/utils/show_snack_bar.dart';
 
-import 'controller/presence_controller.dart';
-import 'controller/profile_controller.dart';
+import 'controller/audio_controller.dart';
+import 'controller/chat/chat_controller.dart';
+import 'controller/chat/message_controller.dart';
+import 'controller/chat/reply_controller.dart';
+import 'controller/contact_controller.dart';
 
 /// ✅ Background FCM handler
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  debugPrint("📥 Background FCM received: ${message.messageId}");
+  debugPrint('📥 Background FCM received: ${message.messageId}');
   await NotificationController.handleIncomingFCM(message);
 }
 
@@ -28,6 +35,11 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
+    cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+  );
+  debugPrint('🟢 Firestore offline persistence enabled');
   // ✅ Handle notification tap when app is completely terminated
   final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
   if (initialMessage != null) {
@@ -39,11 +51,16 @@ void main() async {
   }
 
   // ✅ Initialize controllers
+  Get.put(NewMessageController());
+  Get.put(ContactController());
   Get.put(PresenceController()); // No need to call setupPresence here now
-  Get.put(ChatController());
   Get.put(NotificationController());
   Get.put(ProfileController());
-
+  Get.put(ReplyController());
+  Get.put(MessageController());
+  Get.put(TypingController());
+  Get.put(AudioController());
+  Get.put(ChatController());
   runApp(const MyApp());
 }
 
@@ -108,14 +125,16 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   Widget _handleAuthState() {
     return FirebaseAuth.instance.currentUser == null
-        ? LoginScreen()
-        : HomeScreen();
+        ? const LoginScreen()
+        : const HomeScreen();
   }
 
   MaterialColor buildMaterialColor(Color color) {
-    List strengths = <double>[.05];
-    Map<int, Color> swatch = {};
-    final int r = color.red, g = color.green, b = color.blue;
+    final List strengths = <double>[.05];
+    final Map<int, Color> swatch = {};
+    final int r = color.red;
+    final int g = color.green;
+    final int b = color.blue;
 
     for (int i = 1; i < 10; i++) {
       strengths.add(0.1 * i);

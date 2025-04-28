@@ -30,7 +30,6 @@ class GreenWidgetWithoutLogo extends StatelessWidget {
         margin: EdgeInsets.only(bottom: Get.height * 0.05),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               title,

@@ -5,10 +5,10 @@ class StoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: Text(
-          "Stories",
+          'Stories',
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
       ),

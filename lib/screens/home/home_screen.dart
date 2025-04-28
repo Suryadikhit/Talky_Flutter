@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import '../../utils/app_colors.dart';
-import '../call/calls_screen.dart';
-import '../chat/chatlist_screen.dart';
-import '../stories/stories_screen.dart';
+import 'package:talky/utils/app_colors.dart';
+import 'package:talky/screens/call/calls_screen.dart';
+import 'package:talky/screens/chat/chatlist_screen.dart';
+import 'package:talky/screens/stories/stories_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-  static String routeName = "/home";
+  static String routeName = '/home';
 
   @override
   HomeScreenState createState() => HomeScreenState();
@@ -33,9 +33,9 @@ class HomeScreenState extends State<HomeScreen> {
         color: AppColors.background, // Bottom nav bar color
         buttonBackgroundColor: AppColors.background, // Active button color
         items: <Widget>[
-          Image.asset("assets/icons/chats.png", width: 30, height: 30,color: AppColors.buttonColor),
-          Image.asset("assets/icons/phone.png", width: 30, height: 30,color: AppColors.buttonColor),
-          Image.asset("assets/icons/story.png", width: 30, height: 30,color: AppColors.buttonColor),
+          Image.asset('assets/icons/chats.png', width: 30, height: 30,color: AppColors.buttonColor),
+          Image.asset('assets/icons/phone.png', width: 30, height: 30,color: AppColors.buttonColor),
+          Image.asset('assets/icons/story.png', width: 30, height: 30,color: AppColors.buttonColor),
         ],
         onTap: (index) {
           setState(() {

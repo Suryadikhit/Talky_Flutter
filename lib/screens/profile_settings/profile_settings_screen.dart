@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:talky/screens/profile_settings/profile_image_widget.dart';
 
-import '../../common_widgets/green_widget_without_logo.dart';
-import '../../controller/profile_controller.dart';
-import '../../utils/app_colors.dart';
-import 'gender_selection_widget.dart';
-import 'profile_form_widget.dart';
+import 'package:talky/common_widgets/green_widget_without_logo.dart';
+import 'package:talky/controller/profile_controller.dart';
+import 'package:talky/utils/app_colors.dart';
+import 'package:talky/screens/profile_settings/gender_selection_widget.dart';
+import 'package:talky/screens/profile_settings/profile_form_widget.dart';
 
 class ProfileSettingScreen extends StatefulWidget {
-  static String routeName = "/ProfileSettingScreen";
+  static String routeName = '/ProfileSettingScreen';
   const ProfileSettingScreen({super.key});
 
   @override
@@ -30,9 +30,9 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
               height: Get.height * 0.4,
               child: Stack(
                 children: [
-                  GreenWidgetWithoutLogo(
-                    title: "Profile Settings",
-                    subtitle: "",
+                  const GreenWidgetWithoutLogo(
+                    title: 'Profile Settings',
+                    subtitle: '',
                   ),
                   Positioned(
                     bottom: 20,

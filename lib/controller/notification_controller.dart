@@ -8,7 +8,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../common_widgets/initials_avatar_generator.dart';
+import 'package:talky/common_widgets/initials_avatar_generator.dart';
 
 // ... all previous imports stay the same
 
@@ -17,7 +17,7 @@ class NotificationController extends GetxController {
   final FlutterLocalNotificationsPlugin _localNotifications =
       FlutterLocalNotificationsPlugin();
 
-  static const _tag = "[🔔 NotificationController]";
+  static const _tag = '[🔔 NotificationController]';
 
   @override
   void onInit() {
@@ -28,19 +28,19 @@ class NotificationController extends GetxController {
   }
 
   Future<void> _initializeFCM() async {
-    if (kDebugMode) print("$_tag 🔧 Requesting FCM permissions...");
+    if (kDebugMode) print('$_tag 🔧 Requesting FCM permissions...');
     await _messaging.requestPermission();
-    if (kDebugMode) print("$_tag ✅ FCM permission granted");
+    if (kDebugMode) print('$_tag ✅ FCM permission granted');
 
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      if (kDebugMode) print("$_tag ⚠️ No authenticated user to save FCM token");
+      if (kDebugMode) print('$_tag ⚠️ No authenticated user to save FCM token');
       return;
     }
 
     final token = await _messaging.getToken();
     if (token == null) {
-      if (kDebugMode) print("$_tag ❌ Failed to get FCM token");
+      if (kDebugMode) print('$_tag ❌ Failed to get FCM token');
       return;
     }
 
@@ -52,9 +52,9 @@ class NotificationController extends GetxController {
 
     if (existingToken == null || existingToken != token) {
       await userDoc.update({'fcmToken': token});
-      if (kDebugMode) print("$_tag 💾 FCM token saved to Firestore: $token");
+      if (kDebugMode) print('$_tag 💾 FCM token saved to Firestore: $token');
     } else {
-      if (kDebugMode) print("$_tag ℹ️ FCM token already up-to-date");
+      if (kDebugMode) print('$_tag ℹ️ FCM token already up-to-date');
     }
 
     _messaging.onTokenRefresh.listen((newToken) async {
@@ -63,10 +63,10 @@ class NotificationController extends GetxController {
       if (currentToken != newToken) {
         await userDoc.update({'fcmToken': newToken});
         if (kDebugMode) {
-          print("$_tag 🔁 Token refreshed and updated: $newToken");
+          print('$_tag 🔁 Token refreshed and updated: $newToken');
         }
       } else {
-        if (kDebugMode) print("$_tag 🔁 Token refreshed but already current");
+        if (kDebugMode) print('$_tag 🔁 Token refreshed but already current');
       }
     });
   }
@@ -86,13 +86,13 @@ class NotificationController extends GetxController {
       },
     );
 
-    if (kDebugMode) print("$_tag ✅ Local notifications initialized");
+    if (kDebugMode) print('$_tag ✅ Local notifications initialized');
   }
 
   void _listenForegroundFCM() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       if (kDebugMode) {
-        print("$_tag 📥 Foreground FCM received: ${message.messageId}");
+        print('$_tag 📥 Foreground FCM received: ${message.messageId}');
       }
       await handleIncomingFCM(message);
       await _showNotification(message);
@@ -118,8 +118,8 @@ class NotificationController extends GetxController {
     final initials = getInitials(senderName);
 
     if (kDebugMode) {
-      print("$_tag ✉️ Notification content - sender: $senderName");
-      print("$_tag 📝 Message body: $messageBody");
+      print('$_tag ✉️ Notification content - sender: $senderName');
+      print('$_tag 📝 Message body: $messageBody');
     }
 
     String? iconPath;
@@ -135,19 +135,19 @@ class NotificationController extends GetxController {
         await File(iconPath).writeAsBytes(bytes);
 
         if (kDebugMode) {
-          print("$_tag 🖼️ Downloaded profile image for $senderName");
+          print('$_tag 🖼️ Downloaded profile image for $senderName');
         }
       } catch (e) {
-        if (kDebugMode) print("$_tag ❌ Failed to download profile image: $e");
+        if (kDebugMode) print('$_tag ❌ Failed to download profile image: $e');
         iconPath = await createInitialsAvatarImage(initials);
         if (kDebugMode) {
-          print("$_tag 🧱 Fallback to initials avatar for $senderName");
+          print('$_tag 🧱 Fallback to initials avatar for $senderName');
         }
       }
     } else {
       iconPath = await createInitialsAvatarImage(initials);
       if (kDebugMode) {
-        print("$_tag 🧱 Generated initials avatar for $senderName");
+        print('$_tag 🧱 Generated initials avatar for $senderName');
       }
     }
 
@@ -175,13 +175,13 @@ class NotificationController extends GetxController {
       payload: chatId,
     );
 
-    if (kDebugMode) print("$_tag ✅ Notification shown for chatId: $chatId");
+    if (kDebugMode) print('$_tag ✅ Notification shown for chatId: $chatId');
   }
 
   void initializeOnMessageOpenedApp() {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       if (kDebugMode) {
-        print("$_tag 📲 App opened via notification: ${message.data}");
+        print('$_tag 📲 App opened via notification: ${message.data}');
       }
       final chatId = message.data['chatId'];
       if (chatId != null) {
@@ -194,7 +194,7 @@ class NotificationController extends GetxController {
     final RemoteMessage? initialMessage = await _messaging.getInitialMessage();
     if (initialMessage != null) {
       if (kDebugMode) {
-        print("$_tag 🚀 App launched from terminated state via FCM");
+        print('$_tag 🚀 App launched from terminated state via FCM');
       }
       await handleIncomingFCM(initialMessage);
 
@@ -207,15 +207,15 @@ class NotificationController extends GetxController {
 
   void _navigateToChat(String chatId) {
     if (Get.currentRoute != '/chat') {
-      if (kDebugMode) print("$_tag 🧭 Navigating to chat screen: $chatId");
+      if (kDebugMode) print('$_tag 🧭 Navigating to chat screen: $chatId');
       Get.toNamed('/chat', arguments: {'chatId': chatId});
     } else {
-      if (kDebugMode) print("$_tag ℹ️ Already in chat screen");
+      if (kDebugMode) print('$_tag ℹ️ Already in chat screen');
     }
   }
 
   static Future<void> handleIncomingFCM(RemoteMessage message) async {
-    const tag = "[🔔 NotificationController]";
+    const tag = '[🔔 NotificationController]';
 
     final data = message.data;
 
@@ -225,7 +225,7 @@ class NotificationController extends GetxController {
 
       final user = FirebaseAuth.instance.currentUser;
       if (user == null) {
-        if (kDebugMode) print("$tag ⚠️ No authenticated user");
+        if (kDebugMode) print('$tag ⚠️ No authenticated user');
         return;
       }
 
@@ -236,7 +236,7 @@ class NotificationController extends GetxController {
 
       final doc = await messageRef.get();
       if (!doc.exists) {
-        if (kDebugMode) print("$tag ❌ Message does not exist: $messageId");
+        if (kDebugMode) print('$tag ❌ Message does not exist: $messageId');
         return;
       }
 
@@ -257,10 +257,10 @@ class NotificationController extends GetxController {
 
         if (kDebugMode) print("$tag ✅ Message marked as 'delivered'");
       } else {
-        if (kDebugMode) print("$tag ℹ️ No delivery update required");
+        if (kDebugMode) print('$tag ℹ️ No delivery update required');
       }
     } else {
-      if (kDebugMode) print("$tag ⚠️ Missing chatId or messageId in FCM data");
+      if (kDebugMode) print('$tag ⚠️ Missing chatId or messageId in FCM data');
     }
   }
 }

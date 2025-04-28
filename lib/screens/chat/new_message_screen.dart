@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../controller/new_message_controller.dart';
-import '../../utils/app_colors.dart';
+import 'package:talky/controller/new_message_controller.dart';
+import 'package:talky/utils/app_colors.dart';
 
 class NewMessageScreen extends StatelessWidget {
   static const String routeName = '/new_message';
@@ -26,7 +25,7 @@ class NewMessageScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  "Talky Contacts",
+                  'Talky Contacts',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 IconButton(
@@ -41,7 +40,7 @@ class NewMessageScreen extends StatelessWidget {
               if (controller.permissionDenied.value) {
                 return const Center(
                   child: Text(
-                    "Permission denied. Enable contacts permission in settings.",
+                    'Permission denied. Enable contacts permission in settings.',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.red, fontSize: 16),
                   ),
@@ -53,7 +52,7 @@ class NewMessageScreen extends StatelessWidget {
               }
 
               if (controller.contacts.isEmpty) {
-                return const Center(child: Text("No contacts found."));
+                return const Center(child: Text('No contacts found.'));
               }
 
               return ListView.builder(
@@ -61,12 +60,13 @@ class NewMessageScreen extends StatelessWidget {
                 itemCount: controller.contacts.length,
                 itemBuilder: (context, index) {
                   final contact = controller.contacts[index];
-                  String phoneNumber = controller.normalizeNumber(
-                    contact.phones.isNotEmpty
-                        ? contact.phones.first.number
-                        : "",
-                  );
-                  bool isTalkyUser = controller.talkyUsers.contains(
+                  final String phoneNumber =
+                      NewMessageController.normalizeNumber(
+                        contact.phones.isNotEmpty
+                            ? contact.phones.first.number
+                            : '',
+                      );
+                  final bool isTalkyUser = controller.talkyUsers.contains(
                     phoneNumber,
                   );
 
@@ -100,7 +100,7 @@ class NewMessageScreen extends StatelessWidget {
                               onPressed:
                                   () => controller.inviteUser(phoneNumber),
                               child: const Text(
-                                "Invite",
+                                'Invite',
                                 style: TextStyle(color: Colors.green),
                               ),
                             ),

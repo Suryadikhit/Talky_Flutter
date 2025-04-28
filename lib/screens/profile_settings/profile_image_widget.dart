@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../controller/profile_controller.dart';
+import 'package:talky/controller/profile_controller.dart';
 
 class ProfileImageWidget extends StatelessWidget {
   final ProfileController controller;
@@ -10,12 +10,12 @@ class ProfileImageWidget extends StatelessWidget {
 
   void _showImageSourceDialog() {
     Get.defaultDialog(
-      title: "Choose Image",
+      title: 'Choose Image',
       content: Column(
         children: [
           ListTile(
             leading: const Icon(Icons.camera_alt, color: Colors.blue),
-            title: const Text("Camera"),
+            title: const Text('Camera'),
             onTap: () {
               Get.back();
               controller.getImage(ImageSource.camera);
@@ -23,7 +23,7 @@ class ProfileImageWidget extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.photo_library, color: Colors.green),
-            title: const Text("Gallery"),
+            title: const Text('Gallery'),
             onTap: () {
               Get.back();
               controller.getImage(ImageSource.gallery);
